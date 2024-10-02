@@ -1,0 +1,78 @@
+{% extends "layouts/module_admin.html" %}
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="Storage">Storage</a></li>
+{% endblock %}
+{% block module %}
+
+<h3>Current Path: {{ current_path }}</h3>
+
+{%if current_path%}
+<form method="POST" action="?op=create_dir">
+    <input type="hidden" name="current_path" value="{{ current_path }}">
+    <label class="col-lg-7 control-label">Create directory</label>
+    <div class="d-flex">
+        <div class="col-lg-3"><input class="form-control" type="text" name="new_dir" placeholder="New directory name" required></div>
+        <button type="submit" class="btn btn-primary">Create Directory</button>
+    </div>
+</form>
+
+<form method="POST" action="?op=upload" enctype="multipart/form-data">
+    <input type="hidden" name="current_path" value="{{ current_path }}">
+    <label class="col-lg-7 control-label">Upload file</label>
+    <div class="d-flex">
+       <div class="col-lg-3"><input class="form-control" type="file" name="file" class="input"></div>
+       <button type="submit" class="btn btn-success">Upload File</button>
+    </div>
+</form>
+{%endif%}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Size</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>
+                {% if item.is_dir %}
+                    <i class="fa-regular fa-folder me-2" style="font-size: 30px;"></i>
+                    <a href="?path={{ item.path }}">{{ item.name }}</a>
+                {% else %}
+                    {% if item.is_pic %}
+                        <img src="/files/{{item.path}}" width="30" height="30"/>
+                    {% else %}
+                        <i class="fa-regular fa-file me-2" style="font-size: 30px;"></i>
+                    {%endif%}
+                    <a href="/files/{{ item.path }}">{{ item.name }}</a>
+                {% endif %}
+            </td>
+            <td> {{item.size}} </td>
+            <td> {{item.dt}} </td>
+            <td>
+                {%if current_path%}
+                    {% if item.is_dir %}
+                    <form method="POST" action="?op=delete_dir" style="display:inline;">
+                        <input type="hidden" name="dir_to_delete" value="{{ item.name }}">
+                        <input type="hidden" name="current_path" value="{{ current_path }}">
+                        <button type="submit" class="btn btn-danger">Delete Directory</button>
+                    </form>
+                    {%else%}
+                    <form method="POST" action="?op=delete_file" style="display:inline;">
+                        <input type="hidden" name="file_to_delete" value="{{ item.name }}">
+                        <input type="hidden" name="current_path" value="{{ current_path }}">
+                        <button type="submit" class="btn btn-danger">Delete File</button>
+                    </form>
+                    {% endif %}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
