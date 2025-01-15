@@ -4,7 +4,6 @@ from settings import Config
 from app.authentication.handlers import handle_admin_required
 from flask import redirect, request, url_for, render_template
 from app.core.main.BasePlugin import BasePlugin
-from app.core.main.ObjectsStorage import objects
 
 class Storage(BasePlugin):
 
