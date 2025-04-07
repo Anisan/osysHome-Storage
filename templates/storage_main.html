@@ -4,15 +4,24 @@
 {% endblock %}
 {% block module %}
 
-<h3>Current Path: {{ current_path }}</h3>
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <i class="fas fa-folder-tree mt-2 me-3"></i>
+        {% for url, name in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="?path={{ url }}">{{ name }}</a></li>
+        {% endfor %}
+    </ol>
+</nav>
 
 {%if current_path%}
 <form method="POST" action="?op=create_dir">
     <input type="hidden" name="current_path" value="{{ current_path }}">
     <label class="col-lg-7 control-label">Create directory</label>
     <div class="d-flex">
-        <div class="col-lg-3"><input class="form-control" type="text" name="new_dir" placeholder="New directory name" required></div>
-        <button type="submit" class="btn btn-primary">Create Directory</button>
+        <div class="col-lg-3"><input class="form-control" type="text" name="new_dir" placeholder="New directory name"
+                required></div>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-folder-plus me-2"></i>Create</button>
     </div>
 </form>
 
@@ -20,8 +29,8 @@
     <input type="hidden" name="current_path" value="{{ current_path }}">
     <label class="col-lg-7 control-label">Upload file</label>
     <div class="d-flex">
-       <div class="col-lg-3"><input class="form-control" type="file" name="file" class="input"></div>
-       <button type="submit" class="btn btn-success">Upload File</button>
+        <div class="col-lg-3"><input class="form-control" type="file" name="file" class="input"></div>
+        <button type="submit" class="btn btn-success"><i class="fa-solid fa-file-arrow-up me-2"></i>Upload</button>
     </div>
 </form>
 {%endif%}
@@ -40,34 +49,34 @@
         <tr>
             <td>
                 {% if item.is_dir %}
-                    <i class="fa-regular fa-folder me-2" style="font-size: 30px;"></i>
-                    <a href="?path={{ item.path }}">{{ item.name }}</a>
+                <i class="fa-regular fa-folder me-2" style="font-size: 30px;"></i>
+                <a href="?path={{ item.path }}">{{ item.name }}</a>
                 {% else %}
-                    {% if item.is_pic %}
-                        <img src="/files/{{item.path}}" width="30" height="30"/>
-                    {% else %}
-                        <i class="fa-regular fa-file me-2" style="font-size: 30px;"></i>
-                    {%endif%}
-                    <a href="/files/{{ item.path }}">{{ item.name }}</a>
+                {% if item.is_pic %}
+                <img src="/files/{{item.path}}" width="30" height="30" />
+                {% else %}
+                <i class="fa-regular fa-file me-2" style="font-size: 30px;"></i>
+                {%endif%}
+                <a href="/files/{{ item.path }}">{{ item.name }}</a>
                 {% endif %}
             </td>
             <td> {{item.size}} </td>
             <td> {{item.dt}} </td>
             <td>
                 {%if current_path%}
-                    {% if item.is_dir %}
-                    <form method="POST" action="?op=delete_dir" style="display:inline;">
-                        <input type="hidden" name="dir_to_delete" value="{{ item.name }}">
-                        <input type="hidden" name="current_path" value="{{ current_path }}">
-                        <button type="submit" class="btn btn-danger">Delete Directory</button>
-                    </form>
-                    {%else%}
-                    <form method="POST" action="?op=delete_file" style="display:inline;">
-                        <input type="hidden" name="file_to_delete" value="{{ item.name }}">
-                        <input type="hidden" name="current_path" value="{{ current_path }}">
-                        <button type="submit" class="btn btn-danger">Delete File</button>
-                    </form>
-                    {% endif %}
+                {% if item.is_dir %}
+                <form method="POST" action="?op=delete_dir" style="display:inline;">
+                    <input type="hidden" name="dir_to_delete" value="{{ item.name }}">
+                    <input type="hidden" name="current_path" value="{{ current_path }}">
+                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-folder-minus me-2"></i>Delete</button>
+                </form>
+                {%else%}
+                <form method="POST" action="?op=delete_file" style="display:inline;">
+                    <input type="hidden" name="file_to_delete" value="{{ item.name }}">
+                    <input type="hidden" name="current_path" value="{{ current_path }}">
+                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash me-2"></i>Delete</button>
+                </form>
+                {% endif %}
                 {% endif %}
             </td>
         </tr>
