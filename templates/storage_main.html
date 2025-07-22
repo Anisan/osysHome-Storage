@@ -1,6 +1,6 @@
 {% extends "layouts/module_admin.html" %}
 {% block breadcrumb %}
-<li class="breadcrumb-item"><a href="Storage">Storage</a></li>
+<li class="breadcrumb-item"><a href="Storage">{{ _('Storage')}}</a></li>
 {% endblock %}
 {% block module %}
 
@@ -17,20 +17,20 @@
 {%if current_path%}
 <form method="POST" action="?op=create_dir">
     <input type="hidden" name="current_path" value="{{ current_path }}">
-    <label class="col-lg-7 control-label">Create directory</label>
+    <label class="col-lg-7 control-label">{{ _('Create directory')}}</label>
     <div class="d-flex">
-        <div class="col-lg-3"><input class="form-control" type="text" name="new_dir" placeholder="New directory name"
+        <div class="col-lg-3"><input class="form-control" type="text" name="new_dir" placeholder="{{ _('New directory name')}}"
                 required></div>
-        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-folder-plus me-2"></i>Create</button>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-folder-plus me-2"></i>{{ _('Create')}}</button>
     </div>
 </form>
 
 <form method="POST" action="?op=upload" enctype="multipart/form-data">
     <input type="hidden" name="current_path" value="{{ current_path }}">
-    <label class="col-lg-7 control-label">Upload file</label>
+    <label class="col-lg-7 control-label">{{ _('Upload file')}}</label>
     <div class="d-flex">
         <div class="col-lg-3"><input class="form-control" type="file" name="file" class="input"></div>
-        <button type="submit" class="btn btn-success"><i class="fa-solid fa-file-arrow-up me-2"></i>Upload</button>
+        <button type="submit" class="btn btn-success"><i class="fa-solid fa-file-arrow-up me-2"></i>{{ _('Upload')}}</button>
     </div>
 </form>
 {%endif%}
@@ -38,10 +38,10 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Item</th>
-            <th>Size</th>
-            <th>Date</th>
-            <th>Actions</th>
+            <th>{{ _('Item')}}</th>
+            <th>{{ _('Size')}}</th>
+            <th>{{ _('Date')}}</th>
+            <th>{{ _('Actions')}}</th>
         </tr>
     </thead>
     <tbody>
@@ -68,13 +68,13 @@
                 <form method="POST" action="?op=delete_dir" style="display:inline;">
                     <input type="hidden" name="dir_to_delete" value="{{ item.name }}">
                     <input type="hidden" name="current_path" value="{{ current_path }}">
-                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-folder-minus me-2"></i>Delete</button>
+                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-folder-minus me-2"></i>{{ _('Delete')}}</button>
                 </form>
                 {%else%}
                 <form method="POST" action="?op=delete_file" style="display:inline;">
                     <input type="hidden" name="file_to_delete" value="{{ item.name }}">
                     <input type="hidden" name="current_path" value="{{ current_path }}">
-                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash me-2"></i>Delete</button>
+                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash me-2"></i>{{ _('Delete')}}</button>
                 </form>
                 {% endif %}
                 {% endif %}
